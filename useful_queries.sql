@@ -241,7 +241,7 @@ quit;  -- here in case some fool runs the whole sql file
 drop table if exists georef_temporary;
 create table georef_temporary like georef;
 alter table georef_temporary add column verified bool;
-load data local infile 'verification.csv'
+load data local infile 'roundup_market_verification.csv'
 into table georef_temporary
 columns terminated by ","
 ignore 1 lines
