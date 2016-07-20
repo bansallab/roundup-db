@@ -235,7 +235,21 @@ where website is not null and script is null and last_check is null;
 -- CAUTION --
 quit;  -- here in case some fool runs the whole sql file
 
--- Premises verification and removal
+-- roundup market verification and removal
+
+-- extract list for review
+select premises_id, lat, lng
+into outfile '/tmp/sheet0.csv'
+from georef
+right join association using(premises_id)
+join address using(address_id)
+where address.source != 'roundup'
+group by premises_id;
+select premises_id, name, address, po, city, state, zip, zip_ext
+into outfile '/tmp/sheet1.csv'
+from association 
+join address using(address_id)
+where source != 'roundup';
 
 -- load verification in georef_temporary, be sure to run mysql with "--local-infile"
 drop table if exists georef_temporary;
